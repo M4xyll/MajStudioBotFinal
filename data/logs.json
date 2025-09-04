@@ -40,5 +40,231 @@
       "botTag": "Glitchbert#7503",
       "timestamp": "2025-09-04T10:43:33.652Z"
     }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:10.715Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:45:10.715Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:23.488Z",
+    "action": "TEMP_CHANNEL_CREATED",
+    "details": {
+      "channelId": "1413112704377421956",
+      "channelName": "M4xyll's Voice",
+      "ownerId": "1027548040946520144",
+      "ownerTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:33.714Z",
+    "action": "TEMP_CHANNEL_DELETE_ERROR",
+    "details": {
+      "error": "Cannot read properties of null (reading 'name')",
+      "channelId": "1413112704377421956"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:47.072Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413112802771730463",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:54.148Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413112834476212304",
+      "channelId": "1413112802771730463",
+      "channelName": "m4xyll-support",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "Hi, this is a test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:45:58.859Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413112802771730463",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:11.970Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413112907377541120",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "partnership"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:18.042Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413112934682464257",
+      "channelId": "1413112907377541120",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "Maj Studio"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:23.234Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413112956492972073",
+      "channelId": "1413112907377541120",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "Money"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:28.269Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413112977636200499",
+      "channelId": "1413112907377541120",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "Nothing"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:32.581Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413112995327770737",
+      "channelId": "1413112907377541120",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "none"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:36.278Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Cannot send an empty message",
+      "interactionType": 3,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:46:36.409Z",
+    "action": "BOT_ERROR",
+    "details": {
+      "error": "Unknown interaction",
+      "stack": "DiscordAPIError[10062]: Unknown interaction\n    at handleErrors (/home/runner/workspace/node_modules/@discordjs/rest/dist/index.js:762:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async BurstHandler.runRequest (/home/runner/workspace/node_modules/@discordjs/rest/dist/index.js:866:23)\n    at async _REST.request (/home/runner/workspace/node_modules/@discordjs/rest/dist/index.js:1307:22)\n    at async ButtonInteraction.reply (/home/runner/workspace/node_modules/discord.js/src/structures/interfaces/InteractionResponses.js:200:22)\n    at async Object.execute (/home/runner/workspace/events/interactionCreate.js:60:17)"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:47:55.825Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413113343564316745",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "join"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:47:59.651Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113360471425057",
+      "channelId": "1413113343564316745",
+      "channelName": "m4xyll-join",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:01.909Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113369980047473",
+      "channelId": "1413113343564316745",
+      "channelName": "m4xyll-join",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "twt"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:04.619Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113381581230152",
+      "channelId": "1413113343564316745",
+      "channelName": "m4xyll-join",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "we"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:08.550Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:48:08.550Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:15.211Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113425940316351",
+      "channelId": "1413113343564316745",
+      "channelName": "m4xyll-join",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "df"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:18.034Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113437587898502",
+      "channelId": "1413113343564316745",
+      "channelName": "m4xyll-join",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "df"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:21.257Z",
+    "action": "JOIN_APPLICATION_SUBMITTED",
+    "details": {
+      "ticketId": "1413113343564316745",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "data": {
+        "email": "test",
+        "motivation": "twt",
+        "role": "we",
+        "knowledge": "df"
+      }
+    }
   }
 ]

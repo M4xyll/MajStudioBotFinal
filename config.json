@@ -12,21 +12,21 @@
     ]
   },
   "channels": {
-    "rules": "SET_RULES_CHANNEL_ID",
-    "tempVoice": "SET_TEMP_VOICE_CHANNEL_ID",
-    "ticketCategory": "SET_TICKET_CATEGORY_ID",
-    "transcript": "SET_TRANSCRIPT_CHANNEL_ID",
-    "logs": "SET_LOG_CHANNEL_ID",
-    "welcome": "SET_WELCOME_CHANNEL_ID",
-    "goodbye": "SET_GOODBYE_CHANNEL_ID"
+    "rules": "1319444093419520103",
+    "tempVoice": "1407551792711073983",
+    "ticketCategory": "1407551235967680582",
+    "transcript": "1407551453442215956",
+    "logs": "1407551055486652416",
+    "welcome": "1407553120049041428",
+    "goodbye": "1407553172637089823"
   },
   "roles": {
-    "rulesAccepted": "SET_RULES_ROLE_ID"
+    "rulesAccepted": "1407548058404917257"
   },
   "rules": [
     "1. Be respectful to all members",
     "2. No spam or excessive use of caps",
-    "3. Keep discussions in appropriate channels", 
+    "3. Keep discussions in appropriate channels",
     "4. No NSFW content",
     "5. Follow Discord's Terms of Service"
   ],

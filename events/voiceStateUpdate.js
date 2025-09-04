@@ -121,17 +121,19 @@ module.exports = {
                 if (oldState.channel.members.size === 0) {
                     try {
                         const channelInfo = tempChannels[oldState.channelId];
+                        const channelName = oldState.channel.name; // Store name before deletion
+                        
                         await oldState.channel.delete('Temporary voice channel is empty');
                         
                         // Remove from temp channels data
                         delete tempChannels[oldState.channelId];
                         saveTempChannels(tempChannels);
 
-                        console.log(`🗑️ Deleted empty temp voice channel: ${oldState.channel.name}`);
+                        console.log(`🗑️ Deleted empty temp voice channel: ${channelName}`);
                         
                         logAction('TEMP_CHANNEL_DELETED', {
                             channelId: oldState.channelId,
-                            channelName: oldState.channel.name,
+                            channelName: channelName,
                             ownerId: channelInfo.ownerId,
                             ownerTag: channelInfo.ownerTag,
                             reason: 'Channel empty'

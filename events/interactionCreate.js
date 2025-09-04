@@ -323,37 +323,52 @@ async function handlePartnershipConfirm(interaction) {
     const tickets = loadTickets();
     const ticket = tickets[channelId];
     
-    // Clear the recap and show confirmation
-    await interaction.update({
-        embeds: [],
-        components: []
-    });
+    try {
+        // Create confirmation embed and buttons
+        const confirmationEmbed = new EmbedBuilder()
+            .setColor('#00ff00')
+            .setTitle('✅ Partnership Application Submitted!')
+            .setDescription('Thank you for your partnership application! Our team will review your proposal and get back to you soon.')
+            .addFields(
+                { name: '⏰ What happens next?', value: 'Our partnership team will review your application and contact you within 3-5 business days.', inline: false }
+            )
+            .setTimestamp();
 
-    const confirmationEmbed = new EmbedBuilder()
-        .setColor('#00ff00')
-        .setTitle('✅ Partnership Application Submitted!')
-        .setDescription('Thank you for your partnership application! Our team will review your proposal and get back to you soon.')
-        .addFields(
-            { name: '⏰ What happens next?', value: 'Our partnership team will review your application and contact you within 3-5 business days.', inline: false }
-        )
-        .setTimestamp();
+        const ticketButtons = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`close_ticket_${channelId}`)
+                    .setLabel('🔒 Close Ticket')
+                    .setStyle(ButtonStyle.Danger),
+                new ButtonBuilder()
+                    .setCustomId(`details_partnership_${channelId}`)
+                    .setLabel('📋 View Details')
+                    .setStyle(ButtonStyle.Secondary)
+            );
 
-    const ticketButtons = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(`close_ticket_${channelId}`)
-                .setLabel('🔒 Close Ticket')
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId(`details_partnership_${channelId}`)
-                .setLabel('📋 View Details')
-                .setStyle(ButtonStyle.Secondary)
-        );
+        // Update the message with confirmation content
+        await interaction.update({
+            embeds: [confirmationEmbed],
+            components: [ticketButtons]
+        });
+    } catch (error) {
+        console.error('Error in partnership confirmation:', error);
+        
+        // If update fails, try to reply instead
+        try {
+            if (!interaction.replied) {
+                const errorEmbed = new EmbedBuilder()
+                    .setColor('#ff0000')
+                    .setTitle('❌ Error')
+                    .setDescription('There was an error processing your confirmation. Your application has been saved.')
+                    .setTimestamp();
 
-    await interaction.followUp({
-        embeds: [confirmationEmbed],
-        components: [ticketButtons]
-    });
+                await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            }
+        } catch (replyError) {
+            console.error('Failed to send error response:', replyError);
+        }
+    }
 
     // Update ticket status
     ticket.status = 'submitted';
@@ -396,38 +411,53 @@ async function handleJoinConfirm(interaction) {
     const tickets = loadTickets();
     const ticket = tickets[channelId];
     
-    // Clear the recap and show confirmation
-    await interaction.update({
-        embeds: [],
-        components: []
-    });
+    try {
+        // Create confirmation embed and buttons
+        const confirmationEmbed = new EmbedBuilder()
+            .setColor('#00ff00')
+            .setTitle('✅ Team Application Submitted!')
+            .setDescription('Thank you for your interest in joining Maj Studio! Your application has been submitted successfully.')
+            .addFields(
+                { name: '📧 Next Steps', value: 'Our HR team will review your application and contact you via email within 1-2 weeks.', inline: false },
+                { name: '📞 Interview Process', value: 'If selected, you\'ll be invited for an interview to discuss your application further.', inline: false }
+            )
+            .setTimestamp();
 
-    const confirmationEmbed = new EmbedBuilder()
-        .setColor('#00ff00')
-        .setTitle('✅ Team Application Submitted!')
-        .setDescription('Thank you for your interest in joining Maj Studio! Your application has been submitted successfully.')
-        .addFields(
-            { name: '📧 Next Steps', value: 'Our HR team will review your application and contact you via email within 1-2 weeks.', inline: false },
-            { name: '📞 Interview Process', value: 'If selected, you\'ll be invited for an interview to discuss your application further.', inline: false }
-        )
-        .setTimestamp();
+        const ticketButtons = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`close_ticket_${channelId}`)
+                    .setLabel('🔒 Close Ticket')
+                    .setStyle(ButtonStyle.Danger),
+                new ButtonBuilder()
+                    .setCustomId(`details_join_${channelId}`)
+                    .setLabel('📋 View Details')
+                    .setStyle(ButtonStyle.Secondary)
+            );
 
-    const ticketButtons = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(`close_ticket_${channelId}`)
-                .setLabel('🔒 Close Ticket')
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId(`details_join_${channelId}`)
-                .setLabel('📋 View Details')
-                .setStyle(ButtonStyle.Secondary)
-        );
+        // Update the message with confirmation content
+        await interaction.update({
+            embeds: [confirmationEmbed],
+            components: [ticketButtons]
+        });
+    } catch (error) {
+        console.error('Error in join confirmation:', error);
+        
+        // If update fails, try to reply instead
+        try {
+            if (!interaction.replied) {
+                const errorEmbed = new EmbedBuilder()
+                    .setColor('#ff0000')
+                    .setTitle('❌ Error')
+                    .setDescription('There was an error processing your confirmation. Your application has been saved.')
+                    .setTimestamp();
 
-    await interaction.followUp({
-        embeds: [confirmationEmbed],
-        components: [ticketButtons]
-    });
+                await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            }
+        } catch (replyError) {
+            console.error('Failed to send error response:', replyError);
+        }
+    }
 
     // Update ticket status
     ticket.status = 'submitted';
