@@ -1,0 +1,36 @@
+Hi. Today's task is quite complex so I count on you to achieve it without issues. I want you to make a Discord Bot using NodeJS. You are free to use all the libraries you want. The Discord Bot is for my Development Studio called Maj Studio. The Bot will have a couple of features. Those are: Join message, Leave message, Rule system (1), Temporary voice channels (2), Ordering system (3), Ticket system (4), logs (5)
+
+1. The rule system: I must be able to set rules in the bot files and have a command to send them. Under the rules, a button must be set to add a role to the member that clicked it. If the role is already given, a message must be sent saying that the roles were already accepted
+2. The temp voice channel: I got a voice channel. When a user joins it, I want a channel called "{username}'s Voice" to be created and the user to be sent automatically to this new channel. When a temporary channel is empty, it should be deleted.
+3. Ordering system: I want to make a link with my website. For that, a webhook must be setup. In discord, I must have a panel sent where I can retrieve an order. When retrieving an order, a code will be asked. This code will allow to retrieve the order and it's information from the database.
+4. The ticket system: I want a ticket system: Three options should be available: Support, Partnership and "Join the team". When clicking on one of those buttons, a channel will be created under the set category. This channel will be called "{username}-{option}". The behavious will change depending on the channel:
+- If it's a support ticket, the bot will send a greeting message. Under that message will be a button to close the ticket. This button can be pressed by anyone. When pressing it, a confirmation message will be sent. if confirmed, the channel will be deleted. A transcription will be sent in a transcript channel.
+- If it's a Partnership system: The bot will send questions one by one, each time waiting for an answer from the user. Basically, it will be:
+"What is your company/organization name" - Await answer.
+Once the user answered: Save answer. Delete all messages
+"What do you need from this partnership" - Await answer
+Once the user answered, Save answer. Delete all messages
+"What can you offer in this partnership" - Await answer
+Once the user answered, Save answer. Delete all messages
+"Link to your project/company" - Await answer
+Once the user answered, Save answer. Delete all messages
+"Recap of your partnership request:" - Send a recap of the request and ask user to confirm or cancel (buttons). If confirmed, delete the recap and send a greeting. Two buttons should exist: Close ticket (Same behavious as support) and Details (Sends the recap of the partnership)
+- If it's a Join the team ticket:
+The bot will send questions one by one, each time waiting for an answer from the user. Basically, it will be:
+"Email address" - Await answer
+Once the user answered: Save answer. Delete all messages
+"Why do you want to join our team" - Await answer
+Once the user answered: Save answer. Delete all messages
+"What role are you applying for" - Await answer
+Once the user answered: Save answer. Delete all messages
+"What relevant knowledge do you have" - Await answer
+Once the user answered: Save answer. Delete all messages
+"Anything else to say" - Await answer
+Once the user answered: Save answer. Delete all messages
+"Recap of your join the team request:" - Send a recap of the request and ask user to confirm or cancel (buttons). If confirmed, delete the recap and send a greeting. Two buttons should exist: Close ticket (Same behavious as support) and Details (Sends the recap of the request)
+5. Logs system: All interaction should be logged: Join, Leave, Rules acceptance, new ticket, deleted channel, edited message, deleted message.
+
+All messages sent by the bot should be attractive and beautiful. The bot must also support reboots (Do not lose persistent data or need to resend the panels).
+Commands should exist to add a user to a channel (For tickets/orders), create a channel for someone, remove someone from a channel, etc.
+
+All configuration must be set in a .env (For sensitive information) or in a config file (For the rest). Persistent data must not use a database but actual json files (Stored in a data folder)
