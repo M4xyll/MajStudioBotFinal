@@ -611,5 +611,56 @@
       "botTag": "Glitchbert#7503",
       "timestamp": "2025-09-04T12:09:08.464Z"
     }
+  },
+  {
+    "timestamp": "2025-09-04T12:11:25.033Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413134353608872017",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T12:11:31.040Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413134353608872017",
+      "channelName": "m4xyll-support",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T12:12:28.083Z",
+    "action": "MEMBER_JOIN",
+    "details": {
+      "userId": "1280046639863693373",
+      "userTag": "eachsphere2291",
+      "guildId": "1319441640527630356",
+      "joinedAt": "2025-09-04T12:12:28.008Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T12:14:43.357Z",
+    "action": "TEMP_CHANNEL_CREATED",
+    "details": {
+      "channelId": "1413135184748089435",
+      "channelName": "M4xyll's Voice",
+      "ownerId": "1027548040946520144",
+      "ownerTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T12:14:45.980Z",
+    "action": "TEMP_CHANNEL_DELETED",
+    "details": {
+      "channelId": "1413135184748089435",
+      "channelName": "M4xyll's Voice",
+      "ownerId": "1027548040946520144",
+      "ownerTag": "m4xyll",
+      "reason": "Channel empty"
+    }
   }
 ]
