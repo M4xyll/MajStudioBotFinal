@@ -1,0 +1,37 @@
+{
+  "bot": {
+    "name": "Maj Studio Bot",
+    "description": "A comprehensive Discord bot for Maj Studio",
+    "prefix": "!",
+    "intents": [
+      "Guilds",
+      "GuildMessages",
+      "GuildVoiceStates",
+      "GuildMembers",
+      "MessageContent"
+    ]
+  },
+  "channels": {
+    "rules": "SET_RULES_CHANNEL_ID",
+    "tempVoice": "SET_TEMP_VOICE_CHANNEL_ID",
+    "ticketCategory": "SET_TICKET_CATEGORY_ID",
+    "transcript": "SET_TRANSCRIPT_CHANNEL_ID",
+    "logs": "SET_LOG_CHANNEL_ID"
+  },
+  "roles": {
+    "rulesAccepted": "SET_RULES_ROLE_ID"
+  },
+  "rules": [
+    "1. Be respectful to all members",
+    "2. No spam or excessive use of caps",
+    "3. Keep discussions in appropriate channels", 
+    "4. No NSFW content",
+    "5. Follow Discord's Terms of Service"
+  ],
+  "messages": {
+    "joinMessage": "Welcome to Maj Studio! 🎉",
+    "leaveMessage": "Thanks for being part of our community! 👋",
+    "rulesTitle": "📋 Server Rules",
+    "rulesFooter": "Click the button below to accept the rules and gain access to the server."
+  }
+}

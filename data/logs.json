@@ -1,0 +1,18 @@
+[
+  {
+    "timestamp": "2025-09-04T10:34:15.461Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:34:15.460Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:38:35.058Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:38:35.058Z"
+    }
+  }
+]
