@@ -16,7 +16,9 @@
     "tempVoice": "SET_TEMP_VOICE_CHANNEL_ID",
     "ticketCategory": "SET_TICKET_CATEGORY_ID",
     "transcript": "SET_TRANSCRIPT_CHANNEL_ID",
-    "logs": "SET_LOG_CHANNEL_ID"
+    "logs": "SET_LOG_CHANNEL_ID",
+    "welcome": "SET_WELCOME_CHANNEL_ID",
+    "goodbye": "SET_GOODBYE_CHANNEL_ID"
   },
   "roles": {
     "rulesAccepted": "SET_RULES_ROLE_ID"

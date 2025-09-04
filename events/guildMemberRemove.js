@@ -39,10 +39,20 @@ module.exports = {
             leftAt: new Date().toISOString()
         });
 
-        // Send leave message to system channel or general channel
-        const channel = member.guild.systemChannel || 
-                       member.guild.channels.cache.find(ch => ch.name === 'general') ||
-                       member.guild.channels.cache.filter(ch => ch.type === 0).first();
+        // Send leave message to configured goodbye channel
+        const goodbyeChannelId = process.env.GOODBYE_CHANNEL_ID || config.channels.goodbye;
+        let channel = null;
+        
+        if (goodbyeChannelId && goodbyeChannelId !== 'SET_GOODBYE_CHANNEL_ID') {
+            channel = member.guild.channels.cache.get(goodbyeChannelId);
+        }
+        
+        // Fallback to system channel if goodbye channel not found
+        if (!channel) {
+            channel = member.guild.systemChannel || 
+                     member.guild.channels.cache.find(ch => ch.name === 'general') ||
+                     member.guild.channels.cache.filter(ch => ch.type === 0).first();
+        }
         
         if (channel) {
             const leaveEmbed = new EmbedBuilder()

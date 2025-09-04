@@ -39,10 +39,20 @@ module.exports = {
             joinedAt: member.joinedAt
         });
 
-        // Send join message to system channel or general channel
-        const channel = member.guild.systemChannel || 
-                       member.guild.channels.cache.find(ch => ch.name === 'general') ||
-                       member.guild.channels.cache.filter(ch => ch.type === 0).first();
+        // Send join message to configured welcome channel
+        const welcomeChannelId = process.env.WELCOME_CHANNEL_ID || config.channels.welcome;
+        let channel = null;
+        
+        if (welcomeChannelId && welcomeChannelId !== 'SET_WELCOME_CHANNEL_ID') {
+            channel = member.guild.channels.cache.get(welcomeChannelId);
+        }
+        
+        // Fallback to system channel if welcome channel not found
+        if (!channel) {
+            channel = member.guild.systemChannel || 
+                     member.guild.channels.cache.find(ch => ch.name === 'general') ||
+                     member.guild.channels.cache.filter(ch => ch.type === 0).first();
+        }
         
         if (channel) {
             const joinEmbed = new EmbedBuilder()
