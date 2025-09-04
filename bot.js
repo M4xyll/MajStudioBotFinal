@@ -43,30 +43,8 @@ const initializeDataFiles = () => {
     });
 };
 
-// Utility function to log actions
-const logAction = (action, details) => {
-    const logEntry = {
-        timestamp: new Date().toISOString(),
-        action,
-        details
-    };
-    
-    try {
-        const logsPath = path.join(dataPath, 'logs.json');
-        const logs = JSON.parse(fs.readFileSync(logsPath, 'utf8'));
-        logs.push(logEntry);
-        
-        // Keep only last 1000 logs
-        if (logs.length > 1000) {
-            logs.splice(0, logs.length - 1000);
-        }
-        
-        fs.writeFileSync(logsPath, JSON.stringify(logs, null, 2));
-        console.log(`Logged: ${action} - ${JSON.stringify(details)}`);
-    } catch (error) {
-        console.error('Failed to log action:', error);
-    }
-};
+// Import centralized logger
+const { logAction, setBotClient } = require('./utils/logger');
 
 // Initialize collections
 client.commands = new Collection();
@@ -108,6 +86,10 @@ if (fs.existsSync(eventsPath)) {
 // Basic ready event
 client.once(Events.ClientReady, (readyClient) => {
     console.log(`✅ Maj Studio Bot is ready! Logged in as ${readyClient.user.tag}`);
+    
+    // Set bot client for centralized logger
+    setBotClient(readyClient);
+    
     logAction('BOT_READY', { botTag: readyClient.user.tag, timestamp: new Date().toISOString() });
 });
 

@@ -266,5 +266,293 @@
         "knowledge": "df"
       }
     }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:34.652Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413113505955053579",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "partnership"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:38.356Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113523227328552",
+      "channelId": "1413113505955053579",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "Test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:39.852Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113529354944542",
+      "channelId": "1413113505955053579",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:44.030Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113546811637831",
+      "channelId": "1413113505955053579",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:46.686Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113558065090633",
+      "channelId": "1413113505955053579",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "test"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:48:50.683Z",
+    "action": "PARTNERSHIP_SUBMITTED",
+    "details": {
+      "ticketId": "1413113505955053579",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "data": {
+        "company_name": "Test",
+        "partnership_need": "test",
+        "partnership_offer": "test"
+      }
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:14.351Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413113505955053579",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:20.445Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413113343564316745",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:26.211Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413113722712359033",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "partnership"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:28.279Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113732661510264",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:29.653Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113738386477147",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:31.377Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113745659396116",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:33.997Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113756518449173",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:36.256Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113766119477279",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:39.949Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113781420298250",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "asd"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:49:43.693Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413113797157191691",
+      "channelId": "1413113722712359033",
+      "channelName": "m4xyll-partnership",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "sdf"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:50:18.357Z",
+    "action": "PARTNERSHIP_SUBMITTED",
+    "details": {
+      "ticketId": "1413113722712359033",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "data": {
+        "company_name": "asd",
+        "partnership_need": "asd",
+        "partnership_offer": "asd"
+      }
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:50:23.233Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413113722712359033",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:51:46.324Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413114309999071263",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:52:16.430Z",
+    "action": "MEMBER_JOIN",
+    "details": {
+      "userId": "1278186525946937450",
+      "userTag": "eachsphere",
+      "guildId": "1319441640527630356",
+      "joinedAt": "2025-09-04T10:52:16.356Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:52:48.425Z",
+    "action": "ADMIN_ADD_USER",
+    "details": {
+      "adminId": "1027548040946520144",
+      "adminTag": "m4xyll",
+      "userId": "1278186525946937450",
+      "userTag": "eachsphere",
+      "channelId": "1413114309999071263",
+      "channelName": "m4xyll-support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:52:57.291Z",
+    "action": "ADMIN_REMOVE_USER",
+    "details": {
+      "adminId": "1027548040946520144",
+      "adminTag": "m4xyll",
+      "userId": "1278186525946937450",
+      "userTag": "eachsphere",
+      "channelId": "1413114309999071263",
+      "channelName": "m4xyll-support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:53:15.293Z",
+    "action": "ADMIN_CREATE_CHANNEL",
+    "details": {
+      "adminId": "1027548040946520144",
+      "adminTag": "m4xyll",
+      "channelId": "1413114683258568846",
+      "channelName": "eachphere-test",
+      "forUserId": "1278186525946937450",
+      "forUserTag": "eachsphere"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:54:01.880Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413114309999071263",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:57:35.604Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:57:35.604Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:58:03.694Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:58:03.694Z"
+    }
   }
 ]

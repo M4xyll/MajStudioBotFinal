@@ -3,28 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../config.json');
 
-// Utility function to log actions
-const logAction = (action, details) => {
-    const logEntry = {
-        timestamp: new Date().toISOString(),
-        action,
-        details
-    };
-    
-    try {
-        const logsPath = path.join('./data', 'logs.json');
-        const logs = JSON.parse(fs.readFileSync(logsPath, 'utf8'));
-        logs.push(logEntry);
-        
-        if (logs.length > 1000) {
-            logs.splice(0, logs.length - 1000);
-        }
-        
-        fs.writeFileSync(logsPath, JSON.stringify(logs, null, 2));
-    } catch (error) {
-        console.error('Failed to log action:', error);
-    }
-};
+// Import centralized logger
+const { logAction } = require('../utils/logger');
 
 // Function to load tickets data
 const loadTickets = () => {

@@ -11,19 +11,5 @@
       "partnership_offer": "Nothing"
     },
     "currentStep": "project_link"
-  },
-  "1413113343564316745": {
-    "userId": "1027548040946520144",
-    "userTag": "m4xyll",
-    "type": "join",
-    "createdAt": "2025-09-04T10:47:55.635Z",
-    "status": "submitted",
-    "joinData": {
-      "email": "test",
-      "motivation": "twt",
-      "role": "we",
-      "knowledge": "df"
-    },
-    "submittedAt": "2025-09-04T10:48:21.257Z"
   }
 }

@@ -5,28 +5,8 @@ const axios = require('axios');
 const config = require('../config.json');
 const { createTicketChannel, loadTickets, saveTickets } = require('../handlers/ticketHandler');
 
-// Utility function to log actions
-const logAction = (action, details) => {
-    const logEntry = {
-        timestamp: new Date().toISOString(),
-        action,
-        details
-    };
-    
-    try {
-        const logsPath = path.join('./data', 'logs.json');
-        const logs = JSON.parse(fs.readFileSync(logsPath, 'utf8'));
-        logs.push(logEntry);
-        
-        if (logs.length > 1000) {
-            logs.splice(0, logs.length - 1000);
-        }
-        
-        fs.writeFileSync(logsPath, JSON.stringify(logs, null, 2));
-    } catch (error) {
-        console.error('Failed to log action:', error);
-    }
-};
+// Import centralized logger
+const { logAction } = require('../utils/logger');
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -385,16 +365,48 @@ async function handlePartnershipConfirm(interaction) {
 }
 
 async function handlePartnershipCancel(interaction) {
-    const cancelEmbed = new EmbedBuilder()
-        .setColor('#ff6b6b')
-        .setTitle('❌ Application Cancelled')
-        .setDescription('Your partnership application has been cancelled. You can restart the process anytime by creating a new ticket.')
-        .setTimestamp();
+    const channelId = interaction.customId.split('_')[2];
+    
+    try {
+        const cancelEmbed = new EmbedBuilder()
+            .setColor('#ff6b6b')
+            .setTitle('❌ Application Cancelled')
+            .setDescription('Your partnership application has been cancelled. You can restart the process anytime by creating a new ticket.\n\n**This ticket will now be closed and a transcript will be saved.**')
+            .setTimestamp();
 
-    await interaction.update({
-        embeds: [cancelEmbed],
-        components: []
-    });
+        await interaction.update({
+            embeds: [cancelEmbed],
+            components: []
+        });
+
+        // Wait a moment for user to read the message
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        // Create transcript before closing
+        await createTranscript(interaction.channel);
+        
+        // Update ticket status
+        const tickets = loadTickets();
+        if (tickets[channelId]) {
+            tickets[channelId].status = 'cancelled';
+            tickets[channelId].closedAt = new Date().toISOString();
+            delete tickets[channelId];
+            saveTickets(tickets);
+        }
+
+        // Log the cancellation
+        logAction('PARTNERSHIP_CANCELLED', {
+            ticketId: channelId,
+            userId: interaction.user.id,
+            userTag: interaction.user.tag
+        });
+
+        // Delete the channel
+        await interaction.channel.delete('Partnership application cancelled');
+        
+    } catch (error) {
+        console.error('Error in partnership cancellation:', error);
+    }
 }
 
 async function handleJoinConfirm(interaction) {
@@ -474,16 +486,48 @@ async function handleJoinConfirm(interaction) {
 }
 
 async function handleJoinCancel(interaction) {
-    const cancelEmbed = new EmbedBuilder()
-        .setColor('#ff6b6b')
-        .setTitle('❌ Application Cancelled')
-        .setDescription('Your team application has been cancelled. You can restart the process anytime by creating a new ticket.')
-        .setTimestamp();
+    const channelId = interaction.customId.split('_')[2];
+    
+    try {
+        const cancelEmbed = new EmbedBuilder()
+            .setColor('#ff6b6b')
+            .setTitle('❌ Application Cancelled')
+            .setDescription('Your team application has been cancelled. You can restart the process anytime by creating a new ticket.\n\n**This ticket will now be closed and a transcript will be saved.**')
+            .setTimestamp();
 
-    await interaction.update({
-        embeds: [cancelEmbed],
-        components: []
-    });
+        await interaction.update({
+            embeds: [cancelEmbed],
+            components: []
+        });
+
+        // Wait a moment for user to read the message
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        // Create transcript before closing
+        await createTranscript(interaction.channel);
+        
+        // Update ticket status
+        const tickets = loadTickets();
+        if (tickets[channelId]) {
+            tickets[channelId].status = 'cancelled';
+            tickets[channelId].closedAt = new Date().toISOString();
+            delete tickets[channelId];
+            saveTickets(tickets);
+        }
+
+        // Log the cancellation
+        logAction('JOIN_APPLICATION_CANCELLED', {
+            ticketId: channelId,
+            userId: interaction.user.id,
+            userTag: interaction.user.tag
+        });
+
+        // Delete the channel
+        await interaction.channel.delete('Team application cancelled');
+        
+    } catch (error) {
+        console.error('Error in join cancellation:', error);
+    }
 }
 
 async function handleDetailsView(interaction) {
@@ -711,40 +755,277 @@ async function createTranscript(channel) {
         }
 
         const messages = await channel.messages.fetch({ limit: 100 });
-        const transcript = messages.reverse().map(msg => 
-            `[${msg.createdAt.toLocaleString()}] ${msg.author.tag}: ${msg.content}`
-        ).join('\n');
+        const htmlTranscript = await generateHTMLTranscript(channel, messages);
 
         const transcriptEmbed = new EmbedBuilder()
-            .setColor('#636363')
-            .setTitle('📄 Ticket Transcript')
-            .setDescription(`**Channel:** ${channel.name}\n**Closed:** ${new Date().toLocaleString()}`)
+            .setColor('#5865f2')
+            .setTitle('📄 Ticket Transcript Generated')
+            .setDescription(`**Channel:** #${channel.name}\n**Closed:** ${new Date().toLocaleString()}\n**Guild:** ${channel.guild.name}`)
             .addFields(
-                { name: '📝 Message Count', value: `${messages.size} messages`, inline: true }
+                { name: '💬 Message Count', value: `${messages.size} messages`, inline: true },
+                { name: '📁 Format', value: 'HTML (Discord Style)', inline: true }
             )
             .setTimestamp();
 
-        // Send transcript as file if it's too long, otherwise as embed
-        if (transcript.length > 4000) {
-            const Buffer = require('buffer').Buffer;
-            const attachment = {
-                attachment: Buffer.from(transcript, 'utf8'),
-                name: `transcript-${channel.name}-${Date.now()}.txt`
-            };
-            
-            await transcriptChannel.send({
-                embeds: [transcriptEmbed],
-                files: [attachment]
-            });
-        } else {
-            transcriptEmbed.addFields(
-                { name: '💬 Messages', value: `\`\`\`${transcript.substring(0, 1000)}${transcript.length > 1000 ? '...' : ''}\`\`\``, inline: false }
-            );
-            
-            await transcriptChannel.send({ embeds: [transcriptEmbed] });
-        }
+        const Buffer = require('buffer').Buffer;
+        const attachment = {
+            attachment: Buffer.from(htmlTranscript, 'utf8'),
+            name: `transcript-${channel.name}-${Date.now()}.html`
+        };
+        
+        await transcriptChannel.send({
+            embeds: [transcriptEmbed],
+            files: [attachment]
+        });
 
     } catch (error) {
         console.error('Error creating transcript:', error);
     }
+}
+
+async function generateHTMLTranscript(channel, messages) {
+    const sortedMessages = messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
+    
+    let messagesHTML = '';
+    
+    for (const msg of sortedMessages.values()) {
+        const timestamp = new Date(msg.createdTimestamp).toLocaleString();
+        const avatarURL = msg.author.displayAvatarURL({ size: 40, extension: 'png' });
+        const authorColor = msg.member?.displayHexColor || '#ffffff';
+        
+        // Handle embeds
+        let embedsHTML = '';
+        if (msg.embeds.length > 0) {
+            for (const embed of msg.embeds) {
+                embedsHTML += `
+                    <div class="embed">
+                        <div class="embed-left-border" style="background-color: ${embed.hexColor || '#5865f2'};"></div>
+                        <div class="embed-content">
+                            ${embed.title ? `<div class="embed-title">${escapeHtml(embed.title)}</div>` : ''}
+                            ${embed.description ? `<div class="embed-description">${escapeHtml(embed.description)}</div>` : ''}
+                            ${embed.fields.map(field => `
+                                <div class="embed-field">
+                                    <div class="embed-field-name">${escapeHtml(field.name)}</div>
+                                    <div class="embed-field-value">${escapeHtml(field.value)}</div>
+                                </div>
+                            `).join('')}
+                            ${embed.footer ? `<div class="embed-footer">${escapeHtml(embed.footer.text)}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        messagesHTML += `
+            <div class="message">
+                <div class="message-left">
+                    <img class="avatar" src="${avatarURL}" alt="${escapeHtml(msg.author.username)}'s avatar">
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <span class="username" style="color: ${authorColor};">${escapeHtml(msg.author.username)}</span>
+                        <span class="timestamp">${timestamp}</span>
+                    </div>
+                    ${msg.content ? `<div class="message-text">${escapeHtml(msg.content)}</div>` : ''}
+                    ${embedsHTML}
+                </div>
+            </div>
+        `;
+    }
+
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Transcript - #${channel.name}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #36393f;
+            color: #dcddde;
+            line-height: 1.375;
+            font-size: 16px;
+        }
+        
+        .header {
+            background-color: #2f3136;
+            border-bottom: 1px solid #202225;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #ffffff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .header-info {
+            color: #b9bbbe;
+            font-size: 14px;
+        }
+        
+        .messages-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            padding: 2px 0;
+        }
+        
+        .message:hover {
+            background-color: #32353b;
+            margin: 0 -20px;
+            padding: 2px 20px;
+        }
+        
+        .message-left {
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+        
+        .username {
+            font-weight: 500;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .username:hover {
+            text-decoration: underline;
+        }
+        
+        .timestamp {
+            font-size: 12px;
+            color: #72767d;
+            font-weight: 400;
+        }
+        
+        .message-text {
+            margin-top: 4px;
+            word-wrap: break-word;
+        }
+        
+        .embed {
+            display: flex;
+            max-width: 520px;
+            margin-top: 8px;
+            border-radius: 4px;
+            background-color: #2f3136;
+        }
+        
+        .embed-left-border {
+            width: 4px;
+            border-radius: 4px 0 0 4px;
+            flex-shrink: 0;
+        }
+        
+        .embed-content {
+            padding: 16px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .embed-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .embed-description {
+            color: #dcddde;
+            margin-bottom: 8px;
+        }
+        
+        .embed-field {
+            margin-bottom: 8px;
+        }
+        
+        .embed-field-name {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .embed-field-value {
+            color: #dcddde;
+            font-size: 14px;
+        }
+        
+        .embed-footer {
+            color: #72767d;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .footer {
+            background-color: #2f3136;
+            border-top: 1px solid #202225;
+            padding: 20px;
+            text-align: center;
+            color: #72767d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>#${escapeHtml(channel.name)}</h1>
+        <div class="header-info">
+            <strong>${escapeHtml(channel.guild.name)}</strong> • 
+            Generated on ${new Date().toLocaleString()} • 
+            ${messages.size} messages
+        </div>
+    </div>
+    
+    <div class="messages-container">
+        ${messagesHTML}
+    </div>
+    
+    <div class="footer">
+        Generated by Maj Studio Bot • Discord Transcript System
+    </div>
+</body>
+</html>
+    `;
+}
+
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
