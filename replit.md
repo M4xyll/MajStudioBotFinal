@@ -46,9 +46,11 @@ Preferred communication style: Simple, everyday language.
 - Confirmation flows with cancel/proceed options
 
 ### Order Management
-- Webhook-ready architecture for external website integration
-- Order retrieval panel with button interactions
-- Expandable for future e-commerce integrations
+- **Live API Integration**: Real-time order retrieval from external server API
+- **GET Request System**: Makes HTTP requests to `/order/{orderCode}` endpoint on your server
+- **Comprehensive Error Handling**: Handles API timeouts, connection errors, and invalid responses
+- **Dynamic Order Display**: Shows order status, items, customer info, and shipping details
+- **User-Friendly Feedback**: Clear error messages for order not found, server issues, etc.
 
 ### Logging System
 - Comprehensive event tracking (joins, leaves, rule acceptance, tickets, messages)
@@ -75,14 +77,38 @@ Preferred communication style: Simple, everyday language.
 
 ## Node.js Ecosystem
 - **dotenv**: Environment variable management for sensitive configuration
-- **axios**: HTTP client for future webhook integrations with external websites
+- **axios**: HTTP client for API requests to external order management system
 - **express**: Web server framework for potential webhook endpoints
 - **fs/path**: Native Node.js modules for file system operations
 
-## Future Integrations
-- **Webhook System**: Prepared infrastructure for external website order integration
-- **E-commerce Platform**: Order management system designed for external API connections
-- **Transcript Services**: Architecture supports future transcript generation for ticket conversations
+## API Integration
+- **Order API**: Integrates with external server for real-time order retrieval
+- **Expected API Response Format**: JSON with order details including status, items, customer info
+- **Error Handling**: Comprehensive handling of network errors, timeouts, and API failures
+- **Security**: API requests include proper headers and timeout configurations
+
+## API Configuration Required
+To enable order retrieval, set the ORDER_API_URL environment variable to your server's API endpoint. The bot will make GET requests to `{ORDER_API_URL}/order/{orderCode}`.
+
+**Expected API Response Format:**
+```json
+{
+  "status": "shipped",
+  "total": "99.99",
+  "created_at": "2024-01-15T10:30:00Z",
+  "items": [
+    {"name": "Product Name", "quantity": 1, "price": "99.99"}
+  ],
+  "customer": {"name": "John Doe", "email": "john@example.com"},
+  "shipping_status": "In transit"
+}
+```
+
+**API Requirements:**
+- Must respond to GET requests on `/order/{orderCode}` endpoint
+- Return 404 status for orders not found
+- Return 200 status with JSON data for valid orders
+- Support CORS if bot and API are on different domains
 
 ## Development Tools
 - **package.json**: Dependency management and project metadata

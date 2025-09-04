@@ -1,6 +1,7 @@
 const { Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const config = require('../config.json');
 const { createTicketChannel, loadTickets, saveTickets } = require('../handlers/ticketHandler');
 
@@ -510,26 +511,157 @@ async function handleModalSubmit(interaction) {
     if (interaction.customId === 'order_code_modal') {
         const orderCode = interaction.fields.getTextInputValue('order_code');
         
-        // Here you would typically query your database/webhook
-        // For now, we'll simulate order retrieval
-        const orderEmbed = new EmbedBuilder()
-            .setColor('#ffa500')
-            .setTitle('📦 Order Retrieved')
-            .setDescription(`Order code: \`${orderCode}\``)
-            .addFields(
-                { name: '📋 Status', value: 'This is a demo - order system will be connected to your website webhook', inline: true },
-                { name: '🔧 Setup Required', value: 'Configure ORDER_WEBHOOK_URL environment variable', inline: true }
-            )
-            .setFooter({ text: 'Order retrieval system ready for integration' })
-            .setTimestamp();
-
-        await interaction.reply({ embeds: [orderEmbed], ephemeral: true });
+        // Defer the reply since API call might take some time
+        await interaction.deferReply({ ephemeral: true });
         
-        logAction('ORDER_RETRIEVED', {
-            orderCode: orderCode,
-            userId: interaction.user.id,
-            userTag: interaction.user.tag
-        });
+        try {
+            // Get API endpoint from environment variables
+            const apiUrl = process.env.ORDER_API_URL;
+            
+            if (!apiUrl) {
+                const errorEmbed = new EmbedBuilder()
+                    .setColor('#ff0000')
+                    .setTitle('❌ Configuration Error')
+                    .setDescription('Order API URL is not configured. Please contact an administrator.')
+                    .setFooter({ text: 'API endpoint required for order retrieval' })
+                    .setTimestamp();
+
+                await interaction.editReply({ embeds: [errorEmbed] });
+                return;
+            }
+
+            // Make API request to retrieve order information
+            console.log(`🔍 Retrieving order ${orderCode} from API: ${apiUrl}`);
+            
+            const response = await axios.get(`${apiUrl}/order/${orderCode}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'Maj-Studio-Discord-Bot/1.0'
+                },
+                timeout: 10000 // 10 second timeout
+            });
+
+            if (response.status === 200 && response.data) {
+                const orderData = response.data;
+                
+                // Create embed with order information
+                const orderEmbed = new EmbedBuilder()
+                    .setColor('#00ff00')
+                    .setTitle('📦 Order Found')
+                    .setDescription(`Order details for code: \`${orderCode}\``)
+                    .addFields(
+                        { 
+                            name: '📋 Order Status', 
+                            value: orderData.status || 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '💰 Total Amount', 
+                            value: orderData.total ? `$${orderData.total}` : 'N/A', 
+                            inline: true 
+                        },
+                        { 
+                            name: '📅 Order Date', 
+                            value: orderData.created_at ? new Date(orderData.created_at).toLocaleDateString() : 'N/A', 
+                            inline: true 
+                        }
+                    )
+                    .setFooter({ text: 'Order information retrieved from your server' })
+                    .setTimestamp();
+
+                // Add items if available
+                if (orderData.items && Array.isArray(orderData.items) && orderData.items.length > 0) {
+                    const itemsList = orderData.items.slice(0, 5).map(item => 
+                        `• ${item.name || 'Unknown Item'} ${item.quantity ? `(x${item.quantity})` : ''} - ${item.price ? `$${item.price}` : 'N/A'}`
+                    ).join('\n');
+                    
+                    orderEmbed.addFields({
+                        name: '🛍️ Items',
+                        value: itemsList + (orderData.items.length > 5 ? `\n... and ${orderData.items.length - 5} more items` : ''),
+                        inline: false
+                    });
+                }
+
+                // Add customer info if available
+                if (orderData.customer) {
+                    orderEmbed.addFields({
+                        name: '👤 Customer',
+                        value: orderData.customer.name || orderData.customer.email || 'N/A',
+                        inline: true
+                    });
+                }
+
+                // Add shipping info if available
+                if (orderData.shipping_status) {
+                    orderEmbed.addFields({
+                        name: '🚚 Shipping',
+                        value: orderData.shipping_status,
+                        inline: true
+                    });
+                }
+
+                await interaction.editReply({ embeds: [orderEmbed] });
+
+                logAction('ORDER_RETRIEVED_SUCCESS', {
+                    orderCode: orderCode,
+                    userId: interaction.user.id,
+                    userTag: interaction.user.tag,
+                    orderStatus: orderData.status,
+                    orderTotal: orderData.total
+                });
+
+            } else {
+                throw new Error('Invalid response from API');
+            }
+
+        } catch (error) {
+            console.error('Error retrieving order:', error);
+            
+            let errorMessage = 'Failed to retrieve order information.';
+            let errorDetails = 'Please try again later or contact support.';
+
+            if (error.response) {
+                // API responded with error status
+                if (error.response.status === 404) {
+                    errorMessage = 'Order not found.';
+                    errorDetails = `No order found with code: \`${orderCode}\`\nPlease check the code and try again.`;
+                } else if (error.response.status === 500) {
+                    errorMessage = 'Server error.';
+                    errorDetails = 'The order system is experiencing issues. Please try again later.';
+                } else {
+                    errorMessage = `API Error (${error.response.status})`;
+                    errorDetails = error.response.data?.message || 'Unknown error occurred.';
+                }
+            } else if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND') {
+                errorMessage = 'Cannot connect to order system.';
+                errorDetails = 'The order API is currently unavailable. Please try again later.';
+            } else if (error.code === 'ECONNABORTED') {
+                errorMessage = 'Request timeout.';
+                errorDetails = 'The request took too long. Please try again.';
+            }
+
+            const errorEmbed = new EmbedBuilder()
+                .setColor('#ff0000')
+                .setTitle(`❌ ${errorMessage}`)
+                .setDescription(errorDetails)
+                .addFields(
+                    { name: '🔍 Order Code', value: `\`${orderCode}\``, inline: true },
+                    { name: '⏰ Time', value: new Date().toLocaleTimeString(), inline: true }
+                )
+                .setFooter({ text: 'If the problem persists, please contact an administrator' })
+                .setTimestamp();
+
+            await interaction.editReply({ embeds: [errorEmbed] });
+
+            logAction('ORDER_RETRIEVAL_ERROR', {
+                orderCode: orderCode,
+                userId: interaction.user.id,
+                userTag: interaction.user.tag,
+                error: error.message,
+                errorCode: error.code,
+                statusCode: error.response?.status
+            });
+        }
     }
 }
 

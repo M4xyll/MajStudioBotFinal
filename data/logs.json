@@ -14,5 +14,23 @@
       "botTag": "Glitchbert#7503",
       "timestamp": "2025-09-04T10:38:35.058Z"
     }
+  },
+  {
+    "timestamp": "2025-09-04T10:41:43.469Z",
+    "action": "MEMBER_JOIN",
+    "details": {
+      "userId": "1278186525946937450",
+      "userTag": "eachsphere",
+      "guildId": "1319441640527630356",
+      "joinedAt": "2025-09-04T10:41:43.414Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:41:49.192Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T10:41:49.192Z"
+    }
   }
 ]
