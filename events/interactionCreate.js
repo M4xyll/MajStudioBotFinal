@@ -227,6 +227,9 @@ async function handleTicketCloseConfirm(interaction) {
     await interaction.deferReply();
     
     try {
+        // Store channel name before deletion
+        const channelName = interaction.channel.name;
+        
         // Create transcript
         await createTranscript(interaction.channel);
         
@@ -237,8 +240,9 @@ async function handleTicketCloseConfirm(interaction) {
         
         logAction('TICKET_CLOSED', {
             ticketId: channelId,
-            closedBy: interaction.user.id,
-            closedByTag: interaction.user.tag
+            channelName: channelName,
+            userId: interaction.user.id,
+            userTag: interaction.user.tag
         });
 
         await interaction.editReply('✅ Ticket will be closed in 5 seconds...');
@@ -790,7 +794,7 @@ async function generateHTMLTranscript(channel, messages) {
     
     for (const msg of sortedMessages.values()) {
         const timestamp = new Date(msg.createdTimestamp).toLocaleString();
-        const avatarURL = msg.author.displayAvatarURL({ size: 40, extension: 'png' });
+        const avatarURL = msg.author.displayAvatarURL({ size: 64, extension: 'png' });
         const authorColor = msg.member?.displayHexColor || '#ffffff';
         
         // Handle embeds

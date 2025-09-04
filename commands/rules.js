@@ -1,12 +1,21 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const config = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('rules')
-        .setDescription('Display the server rules with acceptance button'),
+        .setDescription('Display the server rules with acceptance button')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     
     async execute(interaction) {
+        // Check if user has administrator permission or manage messages permission
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
+            await interaction.reply({
+                content: '❌ You don\'t have permission to use this command. Only staff members can send the rules panel.',
+                ephemeral: true
+            });
+            return;
+        }
         // Create the rules embed
         const rulesEmbed = new EmbedBuilder()
             .setColor('#0099ff')

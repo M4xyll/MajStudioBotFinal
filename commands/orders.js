@@ -1,11 +1,20 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('orders')
-        .setDescription('Display the order management panel'),
+        .setDescription('Display the order management panel')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     
     async execute(interaction) {
+        // Check if user has administrator permission or manage messages permission
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
+            await interaction.reply({
+                content: '❌ You don\'t have permission to use this command. Only staff members can send the order panel.',
+                ephemeral: true
+            });
+            return;
+        }
         const orderEmbed = new EmbedBuilder()
             .setColor('#ffa500')
             .setTitle('📦 Order Management')

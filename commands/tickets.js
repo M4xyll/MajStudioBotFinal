@@ -1,11 +1,20 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tickets')
-        .setDescription('Display the ticket creation panel'),
+        .setDescription('Display the ticket creation panel')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     
     async execute(interaction) {
+        // Check if user has administrator permission or manage messages permission
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
+            await interaction.reply({
+                content: '❌ You don\'t have permission to use this command. Only staff members can send the ticket panel.',
+                ephemeral: true
+            });
+            return;
+        }
         const ticketEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('🎫 Maj Studio - Support Center')

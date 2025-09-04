@@ -119,7 +119,8 @@ function createLogEmbed(action, details, timestamp) {
                 .setDescription('A support ticket has been closed.')
                 .addFields(
                     { name: '👤 Closed by', value: `<@${details.userId}>`, inline: true },
-                    { name: '🔗 Channel', value: details.channelName || 'Unknown', inline: true }
+                    { name: '🏷️ User Tag', value: details.userTag || 'Unknown', inline: true },
+                    { name: '🔗 Channel', value: details.channelName ? `#${details.channelName}` : 'Unknown', inline: true }
                 );
             break;
             

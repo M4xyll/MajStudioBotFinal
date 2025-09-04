@@ -554,5 +554,62 @@
       "botTag": "Glitchbert#7503",
       "timestamp": "2025-09-04T10:58:03.694Z"
     }
+  },
+  {
+    "timestamp": "2025-09-04T10:59:37.477Z",
+    "action": "TICKET_CREATED",
+    "details": {
+      "ticketId": "1413116286619357204",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "type": "support"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T10:59:41.465Z",
+    "action": "TICKET_CLOSED",
+    "details": {
+      "ticketId": "1413116286619357204",
+      "closedBy": "1027548040946520144",
+      "closedByTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T11:23:57.811Z",
+    "action": "RULES_ACCEPTED",
+    "details": {
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "roleId": "1407548058404917257",
+      "roleName": "👤 • Member"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T11:43:47.191Z",
+    "action": "MEMBER_JOIN",
+    "details": {
+      "userId": "1280046639863693373",
+      "userTag": "eachsphere2291",
+      "guildId": "1319441640527630356",
+      "joinedAt": "2025-09-04T11:43:47.134Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T11:46:13.866Z",
+    "action": "MEMBER_LEAVE",
+    "details": {
+      "userId": "1280046639863693373",
+      "userTag": "eachsphere2291",
+      "guildId": "1319441640527630356",
+      "leftAt": "2025-09-04T11:46:13.866Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-04T12:09:08.464Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-04T12:09:08.464Z"
+    }
   }
 ]
