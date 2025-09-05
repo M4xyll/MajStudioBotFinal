@@ -698,16 +698,20 @@ async function handleModalSubmit(interaction) {
                     .setFooter({ text: 'Order information retrieved from API' })
                     .setTimestamp();
 
-                // Create action row with Create Order Ticket button
-                const actionRow = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId(`create_order_ticket_${orderCode}`)
-                            .setLabel('🎫 Create Order Ticket')
-                            .setStyle(ButtonStyle.Primary)
-                    );
+                // Only add Create Order Ticket button for order_code_modal (Retrieve Order), not for order_status_modal (Check Status)
+                const components = [];
+                if (interaction.customId === 'order_code_modal') {
+                    const actionRow = new ActionRowBuilder()
+                        .addComponents(
+                            new ButtonBuilder()
+                                .setCustomId(`create_order_ticket_${orderCode}`)
+                                .setLabel('🎫 Create Order Ticket')
+                                .setStyle(ButtonStyle.Primary)
+                        );
+                    components.push(actionRow);
+                }
 
-                await interaction.editReply({ embeds: [orderEmbed], components: [actionRow] });
+                await interaction.editReply({ embeds: [orderEmbed], components: components });
 
                 logAction('ORDER_RETRIEVED_SUCCESS', {
                     orderCode: orderCode,
