@@ -43,8 +43,9 @@ const initializeDataFiles = () => {
     });
 };
 
-// Import centralized logger
+// Import centralized logger and health checker
 const { logAction, setBotClient } = require('./utils/logger');
+const HealthChecker = require('./utils/healthChecker');
 
 // Initialize collections
 client.commands = new Collection();
@@ -89,6 +90,10 @@ client.once(Events.ClientReady, (readyClient) => {
     
     // Set bot client for centralized logger
     setBotClient(readyClient);
+    
+    // Initialize health checker
+    const healthChecker = new HealthChecker();
+    healthChecker.startPeriodicCheck(5); // Check every 5 minutes
     
     logAction('BOT_READY', { botTag: readyClient.user.tag, timestamp: new Date().toISOString() });
 });

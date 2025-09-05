@@ -1,7 +1,7 @@
 {
   "bot": {
     "name": "Maj Studio Bot",
-    "description": "A comprehensive Discord bot for Maj Studio",
+    "description": "Maj Studio's official Discord bot.",
     "prefix": "!",
     "intents": [
       "Guilds",
@@ -24,19 +24,40 @@
     "rulesAccepted": "1407548058404917257"
   },
   "rules": [
-    "1. Be respectful to all members",
-    "2. No spam or excessive use of caps",
-    "3. Keep discussions in appropriate channels",
-    "4. No NSFW content",
-    "5. Follow Discord's Terms of Service"
+    "🔹**1 | Respect Everyone**",
+    "🟢 Be respectful to everyone. No insults, discrimination, harassment, or toxic behavior.",
+    "🚫 Avoid sensitive topics (politics, religion, etc.) to maintain a friendly environment.",
+    "",
+    "🔹 **2 | Advertising & Spam**",
+    "🚫 No unauthorized advertising (Discord servers, YouTube, services, etc.).",
+    "⛔ Spamming messages, emojis, mentions, or links is strictly prohibited.",
+    "",
+    "🔹 **3 | Inappropriate Content**",
+    "❌ No posting of NSFW, gore, hateful, or shocking content.",
+    "🔞 Avoid inappropriate usernames & avatars.",
+    "",
+    "🔹 **4 | Bot & Command Usage**",
+    "📌 Post in the correct channels to keep the server organized.",
+    "🔊 Follow voice chat rules: No excessive noise, unauthorized music, or soundboard abuse.",
+    "",
+    "🔹 **5 | Security & Privacy**",
+    "🤖 Use bot commands only in designated bot channels.",
+    "❌ Do not spam commands to prevent flooding.",
+    "",
+    "🔹 **6 | Sanctions & Moderation**",
+    "🔒 Do not share personal information or others' information without consent.",
+    "🕵️‍♂️ Scams & phishing attempts will result in an immediate ban.",
+    "",
+    "### **🔔 Breaking the rules will lead to warnings, mutes, kicks, or bans, depending on severity.**",
+    "### 📩 Need help? Open a support ticket."
   ],
   "messages": {
     "joinMessage": "Welcome to Maj Studio! 🎉",
     "leaveMessage": "Thanks for being part of our community! 👋",
-    "rulesTitle": "📋 Server Rules",
+    "rulesTitle": "📋 Maj Studio's Server Rules",
     "rulesFooter": "Click the button below to accept the rules and gain access to the server."
   },
   "api": {
-    "orderEndpoint": "SET_YOUR_API_URL_HERE"
+    "orderEndpoint": "http://139.28.99.175:52841/api"
   }
 }

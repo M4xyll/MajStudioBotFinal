@@ -197,6 +197,64 @@ function createLogEmbed(action, details, timestamp) {
                 );
             break;
             
+        case 'API_HEALTH_CHECK':
+            embed.setColor('#00ff00')
+                .setTitle('🏥 API Health Check')
+                .setDescription('Periodic health check completed successfully.')
+                .addFields(
+                    { name: '🌐 Service', value: details.service || 'Unknown', inline: true },
+                    { name: '📡 Response Time', value: details.responseTime || 'Unknown', inline: true },
+                    { name: '📊 Status', value: details.uptime || 'Unknown', inline: true }
+                );
+            break;
+            
+        case 'API_HEALTH_RESTORED':
+            embed.setColor('#00ff00')
+                .setTitle('✅ API Service Restored')
+                .setDescription('The API service is back online!')
+                .addFields(
+                    { name: '🌐 Service', value: details.service || 'Unknown', inline: true },
+                    { name: '📡 Response Time', value: details.responseTime || 'Unknown', inline: true },
+                    { name: '🔗 Endpoint', value: details.endpoint || 'Unknown', inline: false }
+                );
+            break;
+            
+        case 'API_HEALTH_FAILURE':
+            embed.setColor('#ff0000')
+                .setTitle('❌ API Service Down')
+                .setDescription('The API service is currently offline.')
+                .addFields(
+                    { name: '📝 Error', value: details.error || 'Unknown', inline: true },
+                    { name: '🔧 Error Code', value: details.errorCode || 'Unknown', inline: true },
+                    { name: '🔗 Endpoint', value: details.endpoint || 'Unknown', inline: false }
+                );
+            break;
+
+        case 'MESSAGE_EDIT':
+            embed.setColor('#ffa500')
+                .setTitle('✏️ Message Edited')
+                .setDescription(`A message was edited in <#${details.channelId}>`)
+                .addFields(
+                    { name: '👤 Author', value: `<@${details.userId}>`, inline: true },
+                    { name: '🏷️ Tag', value: details.userTag || 'Unknown', inline: true },
+                    { name: '📝 Old Content', value: details.oldContent.substring(0, 1024) || 'Unknown', inline: false },
+                    { name: '✏️ New Content', value: details.newContent.substring(0, 1024) || 'Unknown', inline: false },
+                    { name: '🔗 Jump to Message', value: `[Click Here](${details.messageUrl})`, inline: false }
+                );
+            break;
+
+        case 'MESSAGE_DELETE':
+            embed.setColor('#ff0000')
+                .setTitle('🗑️ Message Deleted')
+                .setDescription(`A message was deleted in <#${details.channelId}>`)
+                .addFields(
+                    { name: '👤 Author', value: `<@${details.userId}>`, inline: true },
+                    { name: '🏷️ Tag', value: details.userTag || 'Unknown', inline: true },
+                    { name: '📝 Content', value: details.content.substring(0, 1024) || 'Unknown', inline: false },
+                    { name: '🆔 Message ID', value: details.messageId || 'Unknown', inline: true }
+                );
+            break;
+            
         default:
             // Generic log entry
             embed.setColor('#636363')

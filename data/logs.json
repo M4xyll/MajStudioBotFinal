@@ -662,5 +662,367 @@
       "ownerTag": "m4xyll",
       "reason": "Channel empty"
     }
+  },
+  {
+    "timestamp": "2025-09-05T09:33:56.949Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:33:56.949Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:33:57.187Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "264ms",
+      "timestamp": "2025-09-05T09:33:57.131Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:36:50.489Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:36:50.488Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:36:50.550Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "76ms",
+      "timestamp": "2025-09-05T09:36:51.341Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:37:01.771Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "interactionType": 2,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:37:01.899Z",
+    "action": "BOT_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "stack": "DiscordAPIError[40060]: Interaction has already been acknowledged.\n    at handleErrors (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:762:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async BurstHandler.runRequest (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:866:23)\n    at async _REST.request (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:1307:22)\n    at async ChatInputCommandInteraction.reply (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\discord.js\\src\\structures\\interfaces\\InteractionResponses.js:200:22)\n    at async Object.execute (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\events\\interactionCreate.js:40:17)"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:38:20.708Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "interactionType": 2,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:38:20.839Z",
+    "action": "BOT_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "stack": "DiscordAPIError[40060]: Interaction has already been acknowledged.\n    at handleErrors (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:762:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async BurstHandler.runRequest (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:866:23)\n    at async _REST.request (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\@discordjs\\rest\\dist\\index.js:1307:22)\n    at async ChatInputCommandInteraction.reply (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\node_modules\\discord.js\\src\\structures\\interfaces\\InteractionResponses.js:200:22)\n    at async Object.execute (C:\\Users\\maxen\\Documents\\Projects\\MajStudioBotFinal\\events\\interactionCreate.js:40:17)"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:38:57.869Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:38:57.869Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:39:00.028Z",
+    "action": "API_HEALTH_FAILURE",
+    "details": {
+      "status": "offline",
+      "error": "connect ECONNREFUSED 139.28.99.175:52841",
+      "errorCode": "ECONNREFUSED",
+      "endpoint": "http://139.28.99.175:52841/health",
+      "lastOnline": "unknown"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:39:05.629Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "interactionType": 2,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:39:34.503Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Interaction has already been acknowledged.",
+      "interactionType": 3,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:39:38.732Z",
+    "action": "INTERACTION_ERROR",
+    "details": {
+      "error": "Unknown interaction",
+      "interactionType": 5,
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:40:38.918Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:40:38.918Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:40:38.970Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "66ms",
+      "timestamp": "2025-09-05T09:40:39.768Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:40:59.586Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413458890598781020",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "/heaj"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:41:08.107Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413458926388772916",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "hey"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:42:50.135Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:42:50.134Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:42:50.190Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "70ms",
+      "timestamp": "2025-09-05T09:42:50.988Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:42:52.638Z",
+    "action": "MESSAGE_CREATE",
+    "details": {
+      "messageId": "1413459364714516511",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "content": "te"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:42:56.477Z",
+    "action": "MESSAGE_EDIT",
+    "details": {
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "oldContent": "te",
+      "newContent": "hl",
+      "messageId": "1413459364714516511",
+      "messageUrl": "https://discord.com/channels/1319441640527630356/1407551055486652416/1413459364714516511"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:43:01.860Z",
+    "action": "MESSAGE_DELETE",
+    "details": {
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "content": "hl",
+      "messageId": "1413459364714516511"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:44:05.383Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:44:05.382Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:44:05.440Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "73ms",
+      "timestamp": "2025-09-05T09:44:06.237Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:44:12.656Z",
+    "action": "MESSAGE_EDIT",
+    "details": {
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "oldContent": "d",
+      "newContent": "da",
+      "messageId": "1413459686392598530",
+      "messageUrl": "https://discord.com/channels/1319441640527630356/1407551055486652416/1413459686392598530"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:44:14.747Z",
+    "action": "MESSAGE_DELETE",
+    "details": {
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "channelId": "1407551055486652416",
+      "channelName": "logs",
+      "content": "da",
+      "messageId": "1413459686392598530"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:49:03.390Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:49:03.389Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:49:03.444Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "67ms",
+      "timestamp": "2025-09-05T09:49:04.241Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:51:25.092Z",
+    "action": "BOT_READY",
+    "details": {
+      "botTag": "Glitchbert#7503",
+      "timestamp": "2025-09-05T09:51:25.091Z"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:51:25.145Z",
+    "action": "API_HEALTH_RESTORED",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "65ms",
+      "timestamp": "2025-09-05T09:51:25.946Z",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:51:34.846Z",
+    "action": "ORDER_RETRIEVAL_ERROR",
+    "details": {
+      "orderCode": "ABC123",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "error": "Request failed with status code 404",
+      "errorCode": "ERR_BAD_REQUEST",
+      "statusCode": 404
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:56:25.146Z",
+    "action": "API_HEALTH_CHECK",
+    "details": {
+      "status": "online",
+      "service": "Appwrite API",
+      "responseTime": "50ms",
+      "uptime": "continuous",
+      "endpoint": "http://139.28.99.175:52841/health"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T09:56:25.949Z",
+    "action": "ORDER_RETRIEVED_SUCCESS",
+    "details": {
+      "orderCode": "ABC123",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "orderStatus": "in-progress",
+      "orderTotal": "0.00"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T10:01:15.637Z",
+    "action": "ORDER_RETRIEVED_SUCCESS",
+    "details": {
+      "orderCode": "ABC123",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "orderStatus": "in-progress",
+      "orderTotal": "0.00"
+    }
+  },
+  {
+    "timestamp": "2025-09-05T10:01:51.021Z",
+    "action": "ORDER_RETRIEVED_SUCCESS",
+    "details": {
+      "orderCode": "ABC123",
+      "userId": "1027548040946520144",
+      "userTag": "m4xyll",
+      "orderStatus": "in-progress",
+      "orderTotal": "0.00"
+    }
   }
 ]

@@ -34,10 +34,14 @@ module.exports = {
                 .setDescription('An error occurred while processing your request. Please try again later.')
                 .setTimestamp();
 
-            if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
-            } else {
-                await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            try {
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.editReply({ embeds: [errorEmbed] });
+                } else {
+                    await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+                }
+            } catch (e) {
+                console.error('Error sending error message:', e);
             }
         }
     },
@@ -49,6 +53,7 @@ async function handleSlashCommand(interaction) {
     if (!command) {
         console.error(`No command matching ${interaction.commandName} was found.`);
         return;
+        return;
     }
 
     try {
@@ -56,16 +61,26 @@ async function handleSlashCommand(interaction) {
     } catch (error) {
         console.error(`Error executing ${interaction.commandName}:`, error);
         
-        const errorEmbed = new EmbedBuilder()
-            .setColor('#ff0000')
-            .setTitle('❌ Command Error')
-            .setDescription('There was an error while executing this command!')
-            .setTimestamp();
+        // Only try to respond if it's not an "Unknown interaction" error
+        if (error.code !== 10062) {
+            const errorEmbed = new EmbedBuilder()
+                .setColor('#ff0000')
+                .setTitle('❌ Command Error')
+                .setDescription('There was an error while executing this command!')
+                .setTimestamp();
 
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
-        } else {
-            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            try {
+                if (interaction.replied) {
+                    await interaction.editReply({ embeds: [errorEmbed] });
+                } else if (interaction.deferred) {
+                    await interaction.followUp({ embeds: [errorEmbed], ephemeral: true });
+                } else {
+                    await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+                }
+            } catch (e) {
+                // If we can't send an error message, just log it
+                console.error('Failed to send error message:', e);
+            }
         }
     }
 }

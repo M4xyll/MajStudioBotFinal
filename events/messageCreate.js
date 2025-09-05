@@ -9,16 +9,6 @@ module.exports = {
         // Ignore bot messages
         if (message.author.bot) return;
 
-        // Log message creation
-        logAction('MESSAGE_CREATE', {
-            messageId: message.id,
-            channelId: message.channel.id,
-            channelName: message.channel.name,
-            userId: message.author.id,
-            userTag: message.author.tag,
-            content: message.content.substring(0, 200) // Limit content length for logging
-        });
-
         // Check if this is a ticket channel and handle answers
         const ticketsPath = path.join('./data', 'tickets.json');
         let tickets = {};
