@@ -98,8 +98,14 @@ async function handleButtonInteraction(interaction) {
         await handleTicketCloseConfirm(interaction);
     } else if (customId.startsWith('cancel_close')) {
         await handleTicketCloseCancel(interaction);
-    } else if (customId.startsWith('order_')) {
+    } else if (customId === 'order_retrieve') {
         await handleOrderRetrieve(interaction);
+    } else if (customId === 'order_status') {
+        await handleOrderStatus(interaction);
+    } else if (customId.startsWith('create_order_ticket_')) {
+        await handleCreateOrderTicket(interaction);
+    } else if (customId.startsWith('close_order_ticket_')) {
+        await handleCloseOrderTicket(interaction);
     } else if (customId.startsWith('confirm_partnership')) {
         await handlePartnershipConfirm(interaction);
     } else if (customId.startsWith('cancel_partnership')) {
@@ -601,15 +607,15 @@ async function handleDetailsView(interaction) {
 }
 
 async function handleModalSubmit(interaction) {
-    if (interaction.customId === 'order_code_modal') {
+    if (interaction.customId === 'order_code_modal' || interaction.customId === 'order_status_modal') {
         const orderCode = interaction.fields.getTextInputValue('order_code');
         
         // Defer the reply since API call might take some time
         await interaction.deferReply({ ephemeral: true });
         
         try {
-            // Get API endpoint from environment variables
-            const apiUrl = process.env.ORDER_API_URL;
+            // Get API endpoint from environment variables or config
+            const apiUrl = process.env.ORDER_API_URL || config.api.orderEndpoint;
             
             if (!apiUrl) {
                 const errorEmbed = new EmbedBuilder()
@@ -637,70 +643,78 @@ async function handleModalSubmit(interaction) {
             if (response.status === 200 && response.data) {
                 const orderData = response.data;
                 
-                // Create embed with order information
+                // Create embed with order information based on your API format
                 const orderEmbed = new EmbedBuilder()
                     .setColor('#00ff00')
-                    .setTitle('📦 Order Found')
-                    .setDescription(`Order details for code: \`${orderCode}\``)
+                    .setTitle(`📦 Order ${orderCode}`)
+                    .setDescription(`Order details retrieved from API`)
                     .addFields(
                         { 
-                            name: '📋 Order Status', 
+                            name: '📋 Status', 
                             value: orderData.status || 'Unknown', 
                             inline: true 
                         },
                         { 
-                            name: '💰 Total Amount', 
-                            value: orderData.total ? `$${orderData.total}` : 'N/A', 
+                            name: '💳 Payment Status', 
+                            value: orderData.payment_status || 'Unknown', 
                             inline: true 
                         },
                         { 
-                            name: '📅 Order Date', 
-                            value: orderData.created_at ? new Date(orderData.created_at).toLocaleDateString() : 'N/A', 
+                            name: '💰 Total Amount', 
+                            value: `${orderData.total_amount || 0} ${orderData.currency || 'EUR'}`, 
+                            inline: true 
+                        },
+                        { 
+                            name: '💳 Payment Method', 
+                            value: orderData.payment_method || 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '👤 Customer', 
+                            value: orderData.customer?.name || 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '📧 Email', 
+                            value: orderData.customer?.email || 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '💬 Discord', 
+                            value: orderData.customer?.discord || 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '📅 Created', 
+                            value: orderData.created_at ? new Date(orderData.created_at).toLocaleString() : 'Unknown', 
+                            inline: true 
+                        },
+                        { 
+                            name: '🔄 Updated', 
+                            value: orderData.updated_at ? new Date(orderData.updated_at).toLocaleString() : 'Unknown', 
                             inline: true 
                         }
                     )
-                    .setFooter({ text: 'Order information retrieved from your server' })
+                    .setFooter({ text: 'Order information retrieved from API' })
                     .setTimestamp();
 
-                // Add items if available
-                if (orderData.items && Array.isArray(orderData.items) && orderData.items.length > 0) {
-                    const itemsList = orderData.items.slice(0, 5).map(item => 
-                        `• ${item.name || 'Unknown Item'} ${item.quantity ? `(x${item.quantity})` : ''} - ${item.price ? `$${item.price}` : 'N/A'}`
-                    ).join('\n');
-                    
-                    orderEmbed.addFields({
-                        name: '🛍️ Items',
-                        value: itemsList + (orderData.items.length > 5 ? `\n... and ${orderData.items.length - 5} more items` : ''),
-                        inline: false
-                    });
-                }
+                // Create action row with Create Order Ticket button
+                const actionRow = new ActionRowBuilder()
+                    .addComponents(
+                        new ButtonBuilder()
+                            .setCustomId(`create_order_ticket_${orderCode}`)
+                            .setLabel('🎫 Create Order Ticket')
+                            .setStyle(ButtonStyle.Primary)
+                    );
 
-                // Add customer info if available
-                if (orderData.customer) {
-                    orderEmbed.addFields({
-                        name: '👤 Customer',
-                        value: orderData.customer.name || orderData.customer.email || 'N/A',
-                        inline: true
-                    });
-                }
-
-                // Add shipping info if available
-                if (orderData.shipping_status) {
-                    orderEmbed.addFields({
-                        name: '🚚 Shipping',
-                        value: orderData.shipping_status,
-                        inline: true
-                    });
-                }
-
-                await interaction.editReply({ embeds: [orderEmbed] });
+                await interaction.editReply({ embeds: [orderEmbed], components: [actionRow] });
 
                 logAction('ORDER_RETRIEVED_SUCCESS', {
                     orderCode: orderCode,
                     userId: interaction.user.id,
                     userTag: interaction.user.tag,
                     orderStatus: orderData.status,
-                    orderTotal: orderData.total
+                    orderTotal: orderData.total_amount
                 });
 
             } else {
@@ -755,6 +769,212 @@ async function handleModalSubmit(interaction) {
                 statusCode: error.response?.status
             });
         }
+    }
+}
+
+// Handle order status button
+async function handleOrderStatus(interaction) {
+    const modal = new ModalBuilder()
+        .setCustomId('order_status_modal')
+        .setTitle('📊 Check Order Status');
+
+    const orderCodeInput = new TextInputBuilder()
+        .setCustomId('order_code')
+        .setLabel('Order Code')
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder('Enter your order code here...')
+        .setRequired(true)
+        .setMaxLength(50);
+
+    const firstRow = new ActionRowBuilder().addComponents(orderCodeInput);
+    modal.addComponents(firstRow);
+
+    await interaction.showModal(modal);
+}
+
+// Handle creating order ticket
+async function handleCreateOrderTicket(interaction) {
+    const orderCode = interaction.customId.split('_')[3]; // Extract order code from customId
+    
+    await interaction.deferReply({ ephemeral: true });
+    
+    try {
+        // Get order category from config
+        const orderCategoryId = process.env.ORDER_CATEGORY_ID || config.channels.orderCategory;
+        
+        if (!orderCategoryId || orderCategoryId === 'SET_ORDER_CATEGORY_ID') {
+            await interaction.editReply({
+                content: '❌ Order category is not configured. Please contact an administrator.',
+            });
+            return;
+        }
+
+        const category = interaction.guild.channels.cache.get(orderCategoryId);
+        if (!category) {
+            await interaction.editReply({
+                content: '❌ Order category not found. Please contact an administrator.',
+            });
+            return;
+        }
+
+        // Create order ticket channel
+        const channelName = `order-${orderCode}`;
+        const orderChannel = await interaction.guild.channels.create({
+            name: channelName,
+            type: 0, // Text channel
+            parent: category,
+            permissionOverwrites: [
+                {
+                    id: interaction.guild.id,
+                    deny: ['ViewChannel'],
+                },
+                {
+                    id: interaction.user.id,
+                    allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory'],
+                },
+            ],
+        });
+
+        // Fetch order data and create initial message
+        await fetchAndDisplayOrderInfo(orderChannel, orderCode, interaction.user);
+
+        await interaction.editReply({
+            content: `✅ Order ticket created! Check <#${orderChannel.id}> for your order details.`,
+        });
+
+        logAction('ORDER_TICKET_CREATED', {
+            ticketId: orderChannel.id,
+            orderCode: orderCode,
+            userId: interaction.user.id,
+            userTag: interaction.user.tag
+        });
+
+    } catch (error) {
+        console.error('Error creating order ticket:', error);
+        await interaction.editReply({
+            content: '❌ Failed to create order ticket. Please try again or contact an administrator.',
+        });
+    }
+}
+
+// Handle closing order ticket
+async function handleCloseOrderTicket(interaction) {
+    const channelId = interaction.customId.split('_')[3];
+    
+    if (interaction.channel.id !== channelId) {
+        await interaction.reply({ 
+            content: '❌ This button is for a different channel.',
+            ephemeral: true 
+        });
+        return;
+    }
+    
+    await interaction.deferReply();
+    
+    try {
+        // Create transcript before closing
+        await createTranscript(interaction.channel);
+        
+        await interaction.editReply('✅ Order ticket will be closed in 5 seconds...');
+        
+        setTimeout(async () => {
+            try {
+                await interaction.channel.delete('Order ticket closed');
+            } catch (error) {
+                console.error('Error deleting order ticket channel:', error);
+            }
+        }, 5000);
+        
+        logAction('ORDER_TICKET_CLOSED', {
+            ticketId: channelId,
+            userId: interaction.user.id,
+            userTag: interaction.user.tag
+        });
+        
+    } catch (error) {
+        console.error('Error closing order ticket:', error);
+        await interaction.editReply('❌ Failed to close order ticket. Please try again or contact an administrator.');
+    }
+}
+
+// Helper function to fetch and display order information
+async function fetchAndDisplayOrderInfo(channel, orderCode, user) {
+    try {
+        const apiUrl = process.env.ORDER_API_URL || config.api.orderEndpoint;
+        
+        if (!apiUrl) {
+            throw new Error('Order API URL not configured');
+        }
+
+        const response = await axios.get(`${apiUrl}/order/${orderCode}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Maj-Studio-Discord-Bot/1.0'
+            },
+            timeout: 10000
+        });
+
+        if (response.status === 200 && response.data) {
+            const orderData = response.data;
+            
+            const orderEmbed = new EmbedBuilder()
+                .setColor('#00ff00')
+                .setTitle(`📦 Order ${orderCode}`)
+                .setDescription(`Order details for <@${user.id}>`)
+                .addFields(
+                    { name: '📋 Status', value: orderData.status || 'Unknown', inline: true },
+                    { name: '💳 Payment Status', value: orderData.payment_status || 'Unknown', inline: true },
+                    { name: '💰 Total Amount', value: `${orderData.total_amount || 0} ${orderData.currency || 'EUR'}`, inline: true },
+                    { name: '💳 Payment Method', value: orderData.payment_method || 'Unknown', inline: true },
+                    { name: '👤 Customer', value: orderData.customer?.name || 'Unknown', inline: true },
+                    { name: '📧 Email', value: orderData.customer?.email || 'Unknown', inline: true },
+                    { name: '📅 Created', value: orderData.created_at ? new Date(orderData.created_at).toLocaleString() : 'Unknown', inline: true },
+                    { name: '🔄 Updated', value: orderData.updated_at ? new Date(orderData.updated_at).toLocaleString() : 'Unknown', inline: true }
+                )
+                .setTimestamp();
+
+            const closeButton = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId(`close_order_ticket_${channel.id}`)
+                        .setLabel('🔒 Close Ticket')
+                        .setStyle(ButtonStyle.Danger)
+                );
+
+            await channel.send({
+                content: `Welcome <@${user.id}>! Here are your order details:`,
+                embeds: [orderEmbed],
+                components: [closeButton]
+            });
+
+        } else {
+            throw new Error('Order not found');
+        }
+    } catch (error) {
+        console.error('Error fetching order info:', error);
+        
+        const errorEmbed = new EmbedBuilder()
+            .setColor('#ff0000')
+            .setTitle('❌ Error')
+            .setDescription(`Failed to fetch order details for code: \`${orderCode}\``)
+            .addFields(
+                { name: 'Error', value: error.message || 'Unknown error', inline: false }
+            )
+            .setTimestamp();
+
+        const closeButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`close_order_ticket_${channel.id}`)
+                    .setLabel('🔒 Close Ticket')
+                    .setStyle(ButtonStyle.Danger)
+            );
+
+        await channel.send({
+            content: `<@${user.id}> There was an error fetching your order details.`,
+            embeds: [errorEmbed],
+            components: [closeButton]
+        });
     }
 }
 
